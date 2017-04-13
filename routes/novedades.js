@@ -28,18 +28,18 @@ router.get("/:id", (req, res, next)=>{
     });
 });
 
-// router.get("/:almacen", (req, res, next)=>{
-//     let almacen = new ObjectID(req.params.id);
-//     req.collection.find({_almacen:almacen}).toArray().then(doc=>{
-//         if(doc){
-//             res.send(doc);
-//         }else{
-//             res.status(404).send({msg:"Almacen no encontrado"});
-//         }
-//     }).catch(err => {
+ router.get("/:almacen", (req, res, next)=>{
+     let almacen = new ObjectID(req.params.id);
+     req.collection.find({almacen:almacen}).toArray().then(doc=>{
+         if(doc){
+             res.send(doc);
+         }else{
+             res.status(404).send({msg:"Almacen no encontrado"});
+         }
+     }).catch(err => {
 
-//     });
-// });
+     });
+ });
 
 router.post("/", (req, res, next) => {
     let novedad = req.body;

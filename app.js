@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongodb = require('mongodb').MongoClient;
+var cors =  require("cors");
 
 var novedades = require('./routes/novedades');
 
@@ -12,7 +13,7 @@ var novedades = require('./routes/novedades');
 var app = express();
 
 let dbConnection;
-mongodb.connect("mongodb://pipearcos221:pipearcos221@ds157380.mlab.com:57380/oferton", (err, db) => {
+mongodb.connect("mongodb://localhost:27017/oferton", (err, db) => {
 
   if (err) {
     console.log("Error:" + err);
@@ -30,15 +31,16 @@ app.use((req, res, next) => {
 
 });
 
+app.use(cors());
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '500mb'}));
+app.use(bodyParser.urlencoded({limit: '500mb', extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('./novedades', novedades);
+app.use('/novedades', novedades);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
