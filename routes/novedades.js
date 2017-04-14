@@ -21,7 +21,7 @@ router.get("/:id", (req, res, next) => {
         if (doc) {
             res.send(doc);
         } else {
-            res.status(404).send({ msg: "Promocion no encontrada" });
+            res.send([]);
         }
     }).catch(err => {
 
@@ -34,7 +34,19 @@ router.get("/almacen/:almacen", (req, res, next) => {
         if (data.length > 0 ) {
             res.send(data);
         } else {
-            res.status(404).send({ msg: "Almacen no encontrado" });
+            res.send([]);
+        }
+    }).catch(err => {
+
+    });
+});
+router.get("/tipo/:tipo", (req, res, next) => {
+    let tipo = req.params.tipo;
+    req.collection.find({ tipo: tipo }).toArray().then(data => {
+        if (data.length > 0 ) {
+            res.send(data);
+        } else {
+            res.send([]);
         }
     }).catch(err => {
 
